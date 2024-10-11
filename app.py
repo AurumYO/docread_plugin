@@ -1,14 +1,16 @@
 import os
 from waitress import serve
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 import docx
 import openai
+from openai.error import RateLimitError
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
 
-app = Flask(__name__)
+template_dir = os.path.abspath("./templates")
+app = Flask(__name__, template_folder=template_dir)
 
 # OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -16,7 +18,8 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @app.route("/")
 def index():
-    return "Hello world!  Your web application is working!"
+    print("Index page")
+    return render_template("upload_form.html")
 
 
 # Function to extract text from a .docx file
@@ -32,33 +35,37 @@ def extract_text_from_docx(docx_file):
 @app.route("/upload", methods=["POST"])
 def upload_file():
     if "file" not in request.files:
-        return jsonify({"error": "No file provided"}), 400
+        return render_template("upload_form.html", error="No file provided")
 
     file = request.files["file"]
 
     if file.filename == "":
-        return jsonify({"error": "No selected file"}), 400
+        return render_template("upload_form.html", error="No selected file")
 
     if file and file.filename.endswith(".docx"):
         text = extract_text_from_docx(file)
 
-        # Call the OpenAI API for summarization
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {
-                    "role": "user",
-                    "content": f"Summarize the following document: {text}",
-                },
-            ],
-            max_tokens=300,
-        )
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {
+                        "role": "user",
+                        "content": f"Summarize the following document: {text}",
+                    },
+                ],
+                max_tokens=300,
+            )
+            summary = response.choices[0].message["content"]
+            return render_template("upload_form.html", summary=summary)
+        except RateLimitError as e:
+            return render_template(
+                "upload_form.html",
+                error="We have reached our API limit. Please try again later.",
+            )
 
-        summary = response.choices[0].message["content"]
-        return jsonify({"summary": summary}), 200
-
-    return jsonify({"error": "Unsupported file type"}), 400
+    return render_template("upload_form.html", error="Unsupported file type")
 
 
 @app.route("/.well-known/ai-plugin.json")
@@ -72,4 +79,5 @@ def serve_openapi():
 
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=8080)
+    app.run(debug=True)
+    # serve(app, host="0.0.0.0", port=8080)
