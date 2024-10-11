@@ -3,6 +3,8 @@ info:
   title: Document Summarizer API
   description: This API allows users to upload a document and get a summary.
   version: "1.0.0"
+servers:
+  - url: "https://8df9459d-27bc-4b7d-ab59-11184eeb8c7c-00-2fmkc29tq9ji1.worf.replit.dev/"
 paths:
   /upload:
     post:
@@ -27,4 +29,11 @@ paths:
                   summary:
                     type: string
         "400":
-          description: Error
+          description: Error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

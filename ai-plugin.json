@@ -9,10 +9,10 @@
     },
     "api": {
       "type": "openapi",
-      "url": "http://localhost:5000/openapi.json"
+      "url": "https://8df9459d-27bc-4b7d-ab59-11184eeb8c7c-00-2fmkc29tq9ji1.worf.replit.dev/openapi.json"
     },
-    "logo_url": "http://localhost:5000/logo.png",
+    "logo_url": "https://8df9459d-27bc-4b7d-ab59-11184eeb8c7c-00-2fmkc29tq9ji1.worf.replit.dev/logo.png",
     "contact_email": "support@example.com",
-    "legal_info_url": "http://localhost:5000/legal"
+    "legal_info_url": "https://8df9459d-27bc-4b7d-ab59-11184eeb8c7c-00-2fmkc29tq9ji1.worf.replit.dev/legal"
   }
   
