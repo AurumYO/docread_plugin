@@ -1,4 +1,5 @@
 import os
+from waitress import serve
 from flask import Flask, request, jsonify, send_from_directory
 import docx
 import openai
@@ -71,4 +72,4 @@ def serve_openapi():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    serve(app, host="0.0.0.0", port=8080)
