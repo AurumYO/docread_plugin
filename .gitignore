@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environment directories
+venv/
+.env
+.plugenv
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.db
+
+# IDE/editor configuration
+.vscode/
+.idea/
+.pydevproject
+
+# Build artifacts
+dist/
+build/
+*.egg-info
+
+# Cache files
+*.pyc
+*.tmp

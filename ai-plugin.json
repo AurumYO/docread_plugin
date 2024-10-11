@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "Document Summarizer",
+    "name_for_model": "document_summarizer",
+    "description_for_human": "Upload a document to get a short summary.",
+    "description_for_model": "This plugin allows users to upload documents and receive short summaries of the content.",
+    "auth": {
+      "type": "none"
+    },
+    "api": {
+      "type": "openapi",
+      "url": "http://localhost:5000/openapi.json"
+    },
+    "logo_url": "http://localhost:5000/logo.png",
+    "contact_email": "support@example.com",
+    "legal_info_url": "http://localhost:5000/legal"
+  }
+  

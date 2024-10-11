@@ -1,0 +1,30 @@
+openapi: 3.0.1
+info:
+  title: Document Summarizer API
+  description: This API allows users to upload a document and get a summary.
+  version: "1.0.0"
+paths:
+  /upload:
+    post:
+      summary: Upload a document and get a summary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Summary of the document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  summary:
+                    type: string
+        "400":
+          description: Error
